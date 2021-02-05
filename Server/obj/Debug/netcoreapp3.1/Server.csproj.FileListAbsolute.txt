@@ -1,0 +1,16 @@
+C:\Users\Seppi\source\repos\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+C:\Users\Seppi\source\repos\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+C:\Users\Seppi\source\repos\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+C:\Users\Seppi\source\repos\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+C:\Users\Seppi\source\repos\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+C:\Users\Seppi\source\repos\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+C:\Users\Seppi\source\repos\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+C:\Users\Seppi\source\repos\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+C:\Users\Seppi\source\repos\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+C:\Users\Seppi\source\repos\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+C:\Users\Seppi\source\repos\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+C:\Users\Seppi\source\repos\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
+C:\Users\Seppi\source\repos\Server\Server\obj\Debug\netcoreapp3.1\Server.csprojAssemblyReference.cache
+C:\Users\Seppi\source\repos\Server\Server\bin\Debug\netcoreapp3.1\Encryptinator9000.dll
+C:\Users\Seppi\source\repos\Server\Server\bin\Debug\netcoreapp3.1\Encryptinator9000.pdb
+C:\Users\Seppi\source\repos\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
