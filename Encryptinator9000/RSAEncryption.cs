@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Numerics;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
 using System.Net.Sockets;
 using System.Net;
 using System.IO;
@@ -16,10 +12,11 @@ namespace Encryptinator9000
     {
         public static Random rnd = new Random();
 
-        private readonly byte[] _Key = new byte[16];
+        private readonly byte[] _Key = new byte[256];
 
         private readonly TcpClient client;
         private readonly NetworkStream stream;
+        private readonly int nBitsInKey = 2048;
 
         public event EventHandler<byte[]> RecievedData;
 
@@ -82,7 +79,7 @@ namespace Encryptinator9000
             BigInteger n;
 
             // Generate random prime numbers for g and n
-            using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(1024))
+            using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(nBitsInKey))
             {
                 RSAParameters parameters = rsa.ExportParameters(true);
 
@@ -98,30 +95,30 @@ namespace Encryptinator9000
                 g = new BigInteger(d, true);
                 n = new BigInteger(modulus, true);
             }
-            BigInteger a = RandomBigInt(2048);
-            BigInteger ga = BigInteger.ModPow(g, a, n);
+            BigInteger a = RandomBigInt(nBitsInKey);
+            BigInteger ang = BigInteger.ModPow(g, a, n);
 
-            KeyShareInit initKey = new KeyShareInit(n, g, ga);
+            InitKeyShare initKey = new InitKeyShare(n, g, ang);
             stream.Write(ObjectToByteArray(initKey));
 
             byte[] message = GetMessage();
-            BigInteger gb = ByteArrayToObject<KeyShare>(message).mix;
+            BigInteger gb = ByteArrayToObject<KeyShare>(message).abgn;
             byte[] key = BigInteger.ModPow(gb, a, n).ToByteArray();
             Array.Copy(key, _Key, _Key.Length);
         }
 
         private void ExchangeClient()
         {
-            BigInteger b = RandomBigInt(2048);
+            BigInteger b = RandomBigInt(nBitsInKey);
 
             byte[] message = GetMessage();
-            KeyShareInit initData = ByteArrayToObject<KeyShareInit>(message);
+            InitKeyShare initData = ByteArrayToObject<InitKeyShare>(message);
 
-            BigInteger gb = BigInteger.ModPow(initData.g, b, initData.n);
+            BigInteger bgn = BigInteger.ModPow(initData.g, b, initData.n);
 
-            stream.Write(ObjectToByteArray(new KeyShare(gb)));
+            stream.Write(ObjectToByteArray(new KeyShare(bgn)));
 
-            byte[] key = BigInteger.ModPow(initData.mix, b, initData.n).ToByteArray();
+            byte[] key = BigInteger.ModPow(initData.abgn, b, initData.n).ToByteArray();
             Array.Copy(key, _Key, _Key.Length);
         }
 
@@ -194,21 +191,21 @@ namespace Encryptinator9000
     [Serializable()]
     internal class KeyShare
     {
-        public BigInteger mix;
+        public BigInteger abgn;
 
-        public KeyShare(BigInteger mix)
+        public KeyShare(BigInteger abgn)
         {
-            this.mix = mix;
+            this.abgn = abgn;
         }
     }
 
     [Serializable()]
-    internal class KeyShareInit : KeyShare
+    internal class InitKeyShare : KeyShare
     {
         public BigInteger n;
         public BigInteger g;
 
-        public KeyShareInit(BigInteger n, BigInteger g, BigInteger mix) : base(mix)
+        public InitKeyShare(BigInteger n, BigInteger g, BigInteger mix) : base(mix)
         {
             this.n = n;
             this.g = g;
